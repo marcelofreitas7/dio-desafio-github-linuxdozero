@@ -1,2 +1,1 @@
-# dio-desafio-github-linuxdozero
-Desafio de criar um repositório do BootCamp Linux do Zero
+# Desafio do BootCamp Linux do Zero de criar um repositório no GitHub.
