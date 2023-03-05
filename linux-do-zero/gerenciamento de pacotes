@@ -1,0 +1,98 @@
+vscode já está no repositorio no ubuntu
+
+ubuntu e debian serao o mesmo comando
+
+baseada no head heat, centos, oraclelinux outros comandos
+
+apt-get é mais a nível do so, ou seja, é melhor para script - nao é tao amigavel
+
+apt já de mais alto nivel mais amigavel com o usuario
+    apt tem, por exemplo, como saber o que voce tem hoje na maquina - mais moderno
+
+
+
+apt-get update (pede a lista)
+        upgrade
+        install
+        remove
+        purge
+
+
+
+apt     list
+        search
+        show
+        install
+        remove
+        autoremove
+        update
+        upgrade
+
+
+apt list
+apt list --installed (o que tem na maquina)
+apt list --upgradeable (o que esta na maquina e pode ser atualizado)
+
+apt search samba
+
+apt install nettools
+apt install unzip
+apt install unrar
+
+apt remove nettools
+apt remove nettools -y (para script sem perguntar nada)
+
+apt edit sources
+
+------------atualiza sistema---------------
+
+O ideal é ter ambiente de teste para atualizar o sistema
+
+fazer um screenshot para salvar o estado do sistema
+Voce cria o scrrenshot no programa virtualbox da maquinas virtuais
+
+ir no virtual box e fazer um screeshot antes de atualizar
+
+apt update (vai checar os repositorios)
+
+ainda nao atualizou
+
+sugere o uso do apt list --upgradeable
+
+apt upgrade -y (y nao pergunta nada)
+
+restaurar ponto anterior
+shutdown 0 (desligar a máquina virtual)
+vá até o virtual box e restaure
+
+
+--------------install no gui ----------
+
+ubuntu software sem necessidade de usar cli
+
+
+
+-------fedora, red hat, CentOs, Amazon linux, Suse Linux-----
+
+red hat e familia(centOs) - 2 comandos 
+
+dnf (mais user friendly)
+yum (mais para script)
+
+Não tem upgrade. Ja usa o update para atualizar. Nos outros o update so baixa e verifica listas. fazer backup antes
+
+----------instalacao arquivos .DEB--------------
+
+No debian e ubuntu o .DEB tem a mesma funcao do .msi da microsoft
+ou seja é um programa de instalacao.
+
+red hat,fedora e etc.. usam .RPM
+
+no servidor (sem ambiente grafico)
+apt install chrome.deb
+
+se fosse no red hat, seria 
+dnf install chrome.rpm
+
+no desktop basta clicar no arquivo e instalar.
+

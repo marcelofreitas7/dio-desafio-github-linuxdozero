@@ -1,0 +1,106 @@
+------discos, sistemas de arquivos, particoes -------
+
+* hd, ssd
+
+* sistema de arquivos
+
+é um padrao (cada so utiliza um, e alguns sao compatives
+com outros
+
+macOs 
+HFS
+
+Unix linux
+
+Ext3, Ext4,XFS
+
+Windows FAT32, NTFS
+
+
+* Particionamento
+
+Divisao do disco. Isso propicia usar sistemas de arquivos diferentes
+em cada particao. Pode istalar varios so.
+
+No windows cada particao é reconhecida e nomeada com uma letra: C, D, E..
+
+No linux cada disco recebe um nome iniciado por sd
+
+sda
+sdb
+adc
+
+e cada disco pode ter particoes
+
+sda1
+sda2
+sdb1
+sdb2
+
+
+--------------adicionar um disco-----------
+
+fdisk -l (listar discos e suas respectivas particoes e sistemas de arqu)
+
+lsblk (lista somente discos)
+
+Particionar e formatar (ou seja, criar um padrao de sistema de arquivo
+
+--------------dividir e formatar--------------
+
+fdisk /dev/sdb  [enter]
+
+command: n
+
+Primaria ou estendida?
+
+Como eu terei apenas uma, ela será primária
+
+command w para salvar
+
+mkfs.ext4 /dev/sdb
+
+---------------montar e desmontar disco-------------
+
+
+cd /mnt
+mkdir disco2
+mount dev/sdb  /mnt/disco2/
+
+
+desmontar
+umount /dev/sdb
+
+Não precisa montar na pasta mnt, pode ser em outra local do sistema de arquivos, por exemplo em uma pasta da raiz
+
+
+-----------montar e desmontar automaticamente----------
+
+
+Da forma como montamos anteriormente o sistema nao vai montar os arquivos na inicializacao, ou seja, voce devera montar manualmente todas as vezes, mas...
+
+voce pode automatizar a montagem
+
+nano /etc/fstab
+
+e adicionar uma linha referente ao disco
+
+primeiro
+disco e para onde ele vai
+
+/dev/sdb  /disk2
+
+sistema de arquivos
+
+/dev/sdb  /disk2 ext4
+
+tem que colocar um parâmetro padrão
+
+/dev/sdb  /disk2 ext4 defaults
+
+e para finalizar mais dois parametros (sem detalhar, normalmente usado para backup)
+
+/dev/sdb  /disk2 ext4 defaults 0 0
+
+salvar e reboot
+

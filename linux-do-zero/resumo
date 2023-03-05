@@ -1,0 +1,59 @@
+*adicionar usuario
+useadd guest2 -c "Convidadeo Especial" -m -s /bin/bash -p $(openssl passwd -crypt Senha123)
+
+*deletar usuario
+userdel -f joao
+
+*alterar bash
+chsh -s /bin/bash joao
+
+*data de expircao usuario
+user add guest -c "Convidado" -m -e 26/06/2023
+
+*data alterada na prox
+passwd guest -e
+
+*usuarios cadastrados
+cat /etc/passwd
+
+*script
+nano criar_user.sh
+
+#!/bin/bash
+
+useadd guest2 -c "Convidadeo Especial 2" -m -s /bin/bash -p $(openssl passwd -crypt Senha123)
+passwd guest2 -e
+
+permissao de executar
+chmod +x criar_user.sh
+
+executando o scrpt
+./criar_user.sh
+
+
+*listando grupos
+
+cat /etc/group
+
+usermod -G adm, sudo mariana
+
+groupadd GRP_ADM
+
+useradd rodrigo -c "Rodrigo Silva" -m -s $(openssl passwd -crypt senha123) -G GRP_ADM
+
+***
+retirar de um grupo
+gpasswd -d mariana sudo
+
+
+chown debora:GRP_ADM /adm/
+
+chown root:GRP_ADM texto-adm.txt
+
+
+Leitura  r   4
+Gravacao w   2
+Execucao x   1
+Nenhuma      0
+
+chmod 750 /adm/

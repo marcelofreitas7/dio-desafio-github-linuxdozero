@@ -1,0 +1,243 @@
+--------criando e excluindo-----------
+
+useradd joao
+
+userdel -f joao
+
+userdel --help
+
+useradd joao -m -c "João da Silva"
+
+-m criar a pasta home de usuario
+
+-c comment nome completo ou descricao da funcao da conta, ex conta de banco de dados
+
+-s shell onde ele vai logar no shell, por padrao nao loga em lugar nenhum
+
+-p encrypted
+
+
+Ao logar no joao verificaras que nao foi definido de qual forma vai ocorrer a interacao com o kernel, no caso o bash.
+
+Para nao excluir e criar novamento o usuario basta definir atraves do cmd:
+
+[change shell]
+chsh -s /bin/bash joao
+
+O correto seria ja definindo como acessara o kernel
+
+adduser -m -c "Joao da Silva" -s /bin/bash
+
+
+
+----------------editando informações do usuario --------
+
+-e data de expiracao
+
+user add guest -c "Convidado" -m -e 26/06/2023
+
+****
+
+usermod modificar usuario
+
+usermod guest -s /bin/bash
+
+*****
+
+passwd guest -e
+
+cat /etc/passwd
+
+como deixar que o usuario defina sua senha
+existe uma data de espiracao tambem para o comando passwd
+Se voce não define nehuma data, ela já está expirada e sera solicitada no proxomo logon do usuario
+
+*****
+cat /etc/passwd
+como saber quais usuarios estao cadastrados?
+
+altere e verifique no arquivo
+
+usermod guest -c "Nova descricao para o convidado"
+
+--------------shell script----------------
+
+Imagine que voce tenha que criar 300 usuarios em um servidor
+Para definir a senha voce teria que o usar o passwd para cada usuario
+Mas caso voce queira definir uma uma senha para esta lista de 300 usuarios?
+Existe uma opcao -p, que define uma senha, mas ela deve estar criptografada
+Se você definir uma senha (sem criptografar) ele vai aceitar, mas quando o usuario efetuar o login a senha não vai bater, pois ele considera que esta senha definida já está criptografada.
+Por isso o parametro para o -p deve ser $(openssl passwd -crypt Senha123)
+
+useadd guest2 -c "Convidadeo Especial" -m -s /bin/bash -p $(openssl passwd -crypt Senha123)
+
+
+nano criar_user.sh
+
+#!/bin/bash
+
+echo "Criando usuarios..."
+useadd guest2 -c "Convidadeo Especial 2" -m -s /bin/bash -p $(openssl passwd -crypt Senha123)
+passwd guest2 -e
+
+useadd guest3 -c "Convidadeo Especial 3" -m -s /bin/bash -p $(openssl passwd -crypt Senha123)
+passwd guest3 -e
+
+useadd guest4 -c "Convidadeo Especial 4" -m -s /bin/bash -p $(openssl passwd -crypt Senha123)
+passwd guest4 -e
+
+echo "Finalizado!!"
+
+chmod +x criar_user.sh
+./criar_user.sh
+
+Criando usuarios...
+Criando usuarios...
+Criando usuarios...
+
+
+
+-------------adicionando usuarios a grupos--------
+
+cat /etc/group
+todos os usuarios criados possuem um grupo
+
+quando crio um usuario e ele não tem permissoes de administrador e nao pode usar comando sudo
+
+quando mariana está logada nao consegue usar sudo mkdir /Receitas
+
+usermod --help
+
+Verifique que o -G (maiusculo) permite adicionar em varios grupos de uma só vez. -g (minusculo)
+adiciona somente em um grupo
+
+usermod -G adm, sudo mariana
+
+fazer logoff caso mariana esteja logada para testar
+
+--------criando novos grupos-----------------
+
+Imagine que voce tem um grupo de usuarios que sao vendedores e voce queira que estes usuarios
+tenham acesso somente a uma determinada pasta. Seria legal dar permissao de administradores para estes usuarios? Não. A melhor forma de organizar e dar permissoes a um grupo e todos os usuarios que estão naquele grupo recebem automoticamente estas permissoes.
+
+groupadd GRP_ADM
+groupadd GRP_VEN
+
+
+Posso adicionar um usuario a estes grupos na criacao
+
+useradd rodrigo -c "Rodrigo Silva" -m -s $(openssl passwd -crypt senha123) -G GRP_ADM
+useradd debora  -c "Debora Silva"  -m -s $(openssl passwd -crypt senha123) -G GRP_ADM 
+useradd daniel  -c "Daniel Silva"  -m -s $(openssl passwd -crypt senha123) -G GRP_VEN
+useradd daniel  -c "Maisa Silva"  -m -s $(openssl passwd -crypt senha123) -G GRP_VEN
+
+usermod -G GRP_VEN Joao
+
+adicionando o joao (que já existia) no GRP_VEN
+
+Mariana está no sudo e adm. Quero remover e adicionada ao GRP_VEN
+
+usermod -G GRP_VEN mariana
+
+cat /etc/groups
+
+Veja que mariana foi adicionada ao GRP_VEN, mas foi removida dos outros
+
+Se eu quiser adicioná-la ao GRP_VEN e continuar no sudo e adm eu necessito informar
+todos os grupos:
+
+usermod -G adm,sudo,GRP_VEN
+
+Mas se eu quiser somente retirá-la de um grupo, por exemplo sudo?
+
+gpasswd --help
+
+gpasswd -d mariana sudo
+
+-------------conhecendo sistema de permissoes----------
+
+cd /home
+
+ls -l
+
+-rw-r
+drwxr-xr-x 3 convidado1 convidado1 4096 jun 21 14:21 convidado1
+drwxr-xr-x 3 convidado2 convidado2 4096 jun 21 14:21 convidado2
+
+tracinho é arquivo e d é diretorio
+
+drwxr-xr-x
+
+d-rwxr-xr-x
+d-rwx r-x r-x
+
+DONO GRUPO OUTROS
+rwx  r-x   r-x
+
+associar o primeiro grupo com a coluna de nomes do proprietario
+associar o seguneo grupo com a coluna do grupo
+associar o terceiro grupo com os outros, ou seja, quem nao esta na coluna do grupo
+
+crie uma pasta adm com o root e depois mude quem é o dono (debora) e o grupo (GRP_ADM)
+
+change owner -> chown
+
+chown debora:GRP_ADM /adm/
+
+chown mariana:GRP_VEN /ven
+
+aprendemos trocar o dono e o grupo de diretorios
+
+---------------alerar perimissoes de um diretorio - arquivo-----------------
+
+Leitura  r   4
+Gravacao w   2
+Execucao x   1
+Nenhuma      0
+
+chmod 750 /adm/
+
+proprietario leit 4 + grav 2 + exec 1 = 7
+grupo        leit 4 +          exec 1 = 5
+outros       0                        = 0
+
+
+chmod 775 /ven/
+
+Importate: exluir é w, se nao tiver w nao exlcui. a logica é
+            que uma exclusao é uma alteracao no sistema de arquivos
+
+
+Alteracoes em arquivos (arquivo criado pelo root dentro da pasta adm): 
+
+chown root:GRP_ADM texto-adm.txt
+-o dono contiua root e grupo de root para GRP_ADM
+
+chmod 750 texto-adm.txt
+
+pasta publica (festa total)
+
+chmod 777 /publica/
+
+
+--------------entendendo permissoes de execucao-----------------
+
+se o root criar o script, quando voce lista ls -l vera que nem o root pode executa-lo
+
+rw- r-- r-- 
+
+chmod 744 date.sh
+
+rwx r-- r-- 
+
+pode ser também assim
+chmod +x date.sh
+
+
+
+
+
+
+
+
+

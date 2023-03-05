@@ -1,0 +1,148 @@
+Não é screnn shot, mas snap shot
+
+-----------copiar-----------
+
+1-onde esta o arquivo
+2-quais, todos, um so, somente os que comecam com a, ou tipo texto
+3-Destino
+
+cp --help
+
+voce esta na pasta de origem ou nao?
+nao
+
+cp /home/denilson/bancodedados.mdf /disk2/
+
+Usar um filtro
+
+Filtro todos os aquivos txt
+
+voce esta na pasta de origem ou nao?
+nao
+cp /home/denilson/*.txt /disk2
+
+
+Filtro iniciado com a letra a
+
+voce esta na pasta de origem ou nao?
+sim
+cp ./a*.txt /disk2/
+
+
+Comando cp sobrescreve sem perguntar, caso exista arquivos com mesmo nome no destino.
+
+Se voce usar o -i ele vai perguntar antes de sobrescrever
+
+cp /home/denilson/* /disk2/ -i
+
+se tiver uma outra pasta em denilson ele nao copia. Copia somente os arquivos. mas se eu quiser copiar tudo?
+
+use o -r (recursivo)
+
+cp /home/denilson/* /disk2/ -i -r
+
+
+insight verboso (que tem muito verbo, muito comando, muito echo)
+
+Imagine que tenha arquivos grandes e você quer saber o que esta acontecendo. Entao copias volumosas voce usa um flag verboso, para informar o que esta acontecendo.
+
+use o flag -v
+
+cp /home/denilson/* /disk2/ -i -r -v
+
+Obs.: Mesmo estando como root, pode aconter de não fazer a copia por algum motivo, por exemplo, o arquivo esta sendo usado. Por isso é bom usar -v
+
+
+---------renomeando---e movendo--------------
+
+é uma copia apagando a origem.
+
+1-onde esta o arquivo
+2-quais, todos, um so, somente os que comecam com a, ou tipo texto
+3-Destino
+
+mv --help
+
+mv /home/denilson/Planilhas.xls /disk2/
+
+Se eu quisesse poderia mover renomeando o destino informando um novo
+nome de arquivo
+mv /home/denilson/Planilhas.xls /disk2/ArquivoCopiado.xls
+
+Por padrão ele sobrepoe sem perguntar. Lembrando que algumas distribuicoes sempre perguntam e, neste caso, voce deve usar um flag para que ele não pergunte, ou seja, ao contrario do padrao do ubuntu.
+
+-f default forca sem perguntar
+-i interativo pergunta antes de sobrescrever
+-v mostrar o que esta acontecendo
+
+nao existe modo recursivo.
+
+**
+
+Voce pode usar o mv para renomear, basta que o local de origem e destino sejam iguais e o nome do arquivo destino seja diferente da origem.
+
+
+-----------iniciando, visualisando e encerrando processo-----------
+
+no ubuntu desktop voce queira derrubar uma aplicacao que um usuario
+esteja utilizando e nao deveria
+
+no terminal, para visualizar os processos use
+ps
+
+mas o ps sozinho so mostra os processos chamados do terminal, os processos do ambiente grafico que estao rodando não sao mostrados. Também não mostra processos de outros usuarios.
+Entao é necessario utilizar paramos
+
+ps --help
+
+ps nao é obrigatorio o sinal - para a flag
+
+pode ser
+
+ps -a
+
+ou 
+
+ps a
+
+ps a > mostra os processos de todos os usuarios
+
+ps u > fornece o nome do usuario e o horario que o usuario iniciou o processo.
+
+ps au
+
+Matar um processo
+
+Kill 12852
+
+
+killall chrome
+
+exemplo no servidor
+
+comando w mostra todos os usuarios logados
+
+comando who -a mostra o pin de cada usuario
+
+kill pin do usuario. Ou seja, derruba o usuario.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

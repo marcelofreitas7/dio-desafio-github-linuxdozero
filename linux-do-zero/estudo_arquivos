@@ -1,0 +1,269 @@
+ctl l clear   
+~ home pasta do usuario
+ $ nao é super 
+#super
+--------------navegando---------------
+
+onde eu estou -> pwd
+
+/ indentifica diretorio raiz
+
+cd change directory
+
+cd /  vai para raiz, muda de tiu para /
+
+ls listar
+
+cd .. volta um diretorio
+
+cd ../backups  - volta um diretorio e entra em outro
+
+cd /var + tab 2 vezes ele auto completa os diretorios quando não se sabe os nomes
+
+cd sem nada volta para home (testei ele nao falou)
+
+cd ~ para para o home tambem
+
+------------------filtrando--------------------------------
+
+ls -l | more   paginar  simbolo pipe (antigo coneccao)     Ctrl + c fecha
+
+ls passw ou ls p + tab para autocompletar
+
+ls p + 2 tab para todos iniciados com p
+
+ou 
+
+ls p* ele mostra todos os arquivos inicipados com p e detalha também o que tem detro deles caso seja um diretorio com arquivos
+
+ls m?g* lista todos os arquvos que se iniciam com m e a segunda letra pode ser qualquer uma, a terceira tem de ser um g e a partir da quarta
+        pode ser qualquer uma
+
+touch cria aquivo em branco vazio
+
+touch arquivo1.txt
+touch arquivo2.txt
+touch arquivo3.txt
+
+touch arquivoA.txt arquvoB.txt arquivoC.txt
+
+
+ls arquivo[1-3]*
+ls arquivo[1,5]*
+ls arquivo[1-3,5]*
+ls arquivo[^2,5]*  listar todos menos o 2 e 5
+ls arquivo[^3-5]*
+
+---------------------localizando-----------------------
+voce esta na raiz /
+ls /sys
+ls /sys/kernel
+ls /sys/kernel/p*
+
+mas se voce precisa de um arquivo e nao sabe onde ele está.
+
+-estou na pasta home entao vai pesquisar a partir da home
+-se voce estiver na raiz vai procurar em todas as pastas do sitema de
+arquivos
+
+find -name arq*
+
+---------------------criando diretorios-----------------------
+
+voce esta no home/marcelo
+
+mkdir /Documentos vai dar erro pois esta criando na raiz e nao tem acesso
+mkdir Documentos  vai criar pois esta criando no seu ambiente
+mkdir Meus Documentos (ele vai tentar criar 2 diretorios, vai criar Meus e vai dar erro nos Documentos pois este já existe
+mkdir 'Meus Documentos'
+cd 'Meus Documentos'
+
+-------------------excluindo----------------------
+
+rmdir Meus
+
+rmdir Planilhas  (vai dizer que o diretorio nao esta vazio)
+
+rm texto1.txt 
+rm texto2.txt
+
+rm arquivo[1-5].txt
+rm arquivo*
+
+rmdir Escolares Financeiros
+
+rm -rf (recursivo + force) 
+
+rm é para pastas, mas se utilizar o -r vai apagar diretorios e todos os arquivos neles. O force é para ignorar mensagens, por exemplo de permissoes ou ocultos.
+
+-------------------ajuda--------------------
+
+--help vs man
+
+--help é um parametro do comando, que muitas vezes não é implementado
+man é um comando que busca em um fmanual ajuda sobre o comando passado como paramento.
+
+ls --help
+ls -l (lista longa) detalhes sobre permissoes e outras coisas
+
+inicio das permissoes
+drwxr
+
+d diretorio
+- arquivo
+
+ls -a lista arquivos ocultos
+
+
+drwxr-xr-x  3     kurt kurt   4096        jul  6  2022              Trabalho
+permiss     qtd   dono grupo  tam bytes   data criado ou alterado   dir ou arquivo
+
+ls -lh (h-human) o tamanho, por exemple sera apresentado em gbyte, kbyte, byte
+
+rm -rfv teste   (v-verbose) mostra o que esta acontecendo
+
+rm -rfvi teste  (i-pergunta se quer apagar)
+
+man ls  ajuda em formato artigo
+
+
+-------------------tarefas administrativas--------------------
+
+Os grupos estao em um arquivo de texto 
+
+para acessa-lo cat /etc/group
+
+
+Arquivo que define se usuario pode ter atividades de administrador
+ou seja as configuracoes do comando sudo
+sudo cat /etc/sudoers
+
+-------------------logando com usuario root--------------------
+
+Nunca fique logado com root. Utilize-o mas volte para o usuario
+Usuario root pode ter acesso a qualquer arquivo, inclusive de outros usuarios e pode apagar o sistema.
+
+Em algumas distribuicoes é pedido para criar uma senha para root e um usuario. Existem distribuicoes que so criam o root e existe tambem as que so pedem a criacao de um usuario, é o caso do ubuntu e posteriormente se voce necessita utilizar o usuario root voce cria uma senha:
+
+passwd root (somente atribui uma senha,nao cria o usuario)
+vai pedir a senha do usuario da instalacao
+vai pedir a senha que voce quer criar para o root.
+
+para mudar para o usuario root basta o comando su (super usuario)
+A partir daí nao precisa do sudo nos comandos.
+
+
+voltar para o usuario normal apos atividades, basta:
+
+su usuariopadrao
+
+
+por seguraca o usuario root é bloqueado para acesso remoto "em algumas distribuicoes" mas voce pode reverter isso
+
+-------------------liberando acesso remoto ao root--------------------
+
+O ideal é utilizar um certificado para acesso root, da forma como é feito na nuvem.
+
+Servico sshd é o servico de acesso remoto.
+
+O arquivo de configurcao é
+cat /etc/ssh/sshd_config
+no debian
+cat /etc/ssh/ssh_config
+
+alterar linha
+PermitRotLogin prohibit-password
+para
+PermitRotLogin yes
+
+systemctl status sshd - para ver se o servico esta ok
+tem um log que mostra quando alguem tentou logar como root.
+para saber quem está acessando o sistema
+
+nao consigo ver no mint lmde
+mas atraves o processo da pra ver que ele esta ok
+ps aux | grep sshd
+
+--------------trabalhando com arquivo texto-----------
+
+vi e nano
+
+-------------historico de comandos-----------------
+
+cada usuario tem a sua lista
+
+history
+
+history 30 (ultimos 30)
+
+!320
+
+![numero do history] reaproveita um determinado comando
+
+!! reaproveita o ultimo comando
+
+!?dat?  ele executa algum comando que possui o termo dat, por ex. o date
+
+grep busca um padrao
+
+history | grep "Planilhas"  so busca (nao executa), ou seja somente uma pesquisa, diferente de !?Planilhas?
+
+É possivel ver a data e a hora, mas voce precisa alterar uma variavel de ambiente para isso:
+export HISTTIMEFORMAT "%c"
+export HISTTIMEFORMAT "%c " para nao ficar colado a data com o comando
+
+history --help
+
+-c  - clear the history
+
+mas se sair do usuario, ir para root e depois voltar o historico nao foi excluido
+
+mas nao tem jeito de apagar?
+
+set +o history
+
+os comandos não serao armazenados, mas ficara no historio que alguem usou o set +o history
+
+para voltar a armazenar os comandos
+
+set -o history
+
+se eu quiser que somente os ultimos 50 comando sejam armazenados?
+Basta alterar um arquivo de config que fica na pasta do usuario.
+
+ls -a na pasta de usuario
+
+cat .bashrc
+
+HISTSIZE=1000
+
+sudo nano .bashrc
+
+e altera para 
+
+HISTSIZE=30
+
+
+os antigos continuarão e a partir de agora somente os ultimos 30 serao armazenados.
+
+
+history - w
+
+vai armazenar em um arquivo
+
+cat .bash_history (na pasta do usuario) vai estar o arquivo
+
+No arqu. de config voce também pode determinar o tam deste arquivo.
+
+sudo nano .bashrc
+
+HISTFILESIZE=200 (TAM EM BYTES)
+
+
+
+
+
+
+
+
+

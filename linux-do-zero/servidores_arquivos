@@ -1,0 +1,18 @@
+-----introducao-ao servidor de arquivos--------
+
+samba.org
+
+o samba é um daemom (processo executado em segundo plano)
+
+obs.: varios processos executam em segundo plano por exemplo job, mas
+o daemom fica eternamente.
+
+Por isso o nome do samba para ser reiniciado acrescenta-se um d de daemon. o comando systemctl é para iniciar, reiniciar, matar, etc. daemons
+
+systemctl restart smbd
+
+O samba é iniciado quando o servidor é reiniciado?
+
+Não. Mas se voce executar o comando abaixo sim:
+
+systemctl enabled smdb
